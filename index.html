@@ -1,1124 +1,1583 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>RASYIIQ Physics Lab</title>
+<title>RASYIIQ Physics Lab</title>
 
-  <style>
-    :root {
-      --bg: #07101e;
-      --sidebar: #0c192b;
-      --panel: #101e33;
-      --panel2: #152640;
-      --border: #293c58;
-      --text: #ecf4ff;
-      --muted: #a7bad3;
-      --yellow: #ffce70;
-      --blue: #6cbbff;
-      --green: #7de5ba;
-    }
+<style>
+:root {
+  --bg: #08111f;
+  --panel: #111e30;
+  --panel2: #192a40;
+  --line: #30425a;
+  --text: #f1f5fb;
+  --muted: #a9bed3;
+  --yellow: #ffd176;
+  --blue: #6bbcff;
+  --green: #7ee1bb;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-    }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
 
-    .layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      min-height: 100vh;
-    }
+header {
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+  background: #0d1c2e;
+}
 
-    .sidebar {
-      background: var(--sidebar);
-      border-right: 1px solid var(--border);
-      padding: 22px;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-    }
+header h1 {
+  margin: 0;
+  color: var(--yellow);
+  letter-spacing: 1px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      margin-bottom: 5px;
-    }
+header p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
 
-    .logo span {
-      color: var(--yellow);
-    }
+.layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: calc(100vh - 105px);
+}
 
-    .subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 25px;
-    }
+.sidebar {
+  background: #0e1b2d;
+  border-right: 1px solid var(--line);
+  padding: 18px;
+  max-height: calc(100vh - 105px);
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+}
 
-    .search {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #071525;
-      color: white;
-      margin-bottom: 20px;
-    }
+.sidebar input {
+  width: 100%;
+  padding: 12px;
+  background: #081625;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: white;
+  margin-bottom: 16px;
+}
 
-    .chapter {
-      color: var(--yellow);
-      font-size: 12px;
-      font-weight: bold;
-      margin: 20px 0 10px;
-    }
+.chapter {
+  color: var(--yellow);
+  margin: 18px 0 9px;
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .nav-item {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 7px;
-      border-radius: 10px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text);
-      text-align: left;
-      cursor: pointer;
-    }
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 5px;
+  background: transparent;
+  color: #c8d7e8;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  text-align: left;
+  cursor: pointer;
+}
 
-    .nav-item:hover {
-      background: #1a304a;
-    }
+.nav-button:hover,
+.nav-button.active {
+  background: #263c58;
+  border-color: #506e90;
+}
 
-    .nav-item.active {
-      background: #263b54;
-      border-color: var(--blue);
-    }
+main {
+  padding: 25px;
+  max-width: 1400px;
+  width: 100%;
+}
 
-    .main {
-      padding: 30px;
-      min-width: 0;
-    }
+.card {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid var(--line);
+  margin-bottom: 17px;
+}
 
-    h1 {
-      font-size: 34px;
-      margin-bottom: 10px;
-    }
+.card h2, .card h3 {
+  margin-top: 0;
+}
 
-    h1 span {
-      color: var(--yellow);
-    }
+.formula {
+  background: #081626;
+  border-left: 4px solid var(--yellow);
+  padding: 18px;
+  color: var(--yellow);
+  border-radius: 8px;
+  font-size: 23px;
+  font-weight: bold;
+  margin: 15px 0;
+}
 
-    .description {
-      color: var(--muted);
-      margin-bottom: 30px;
-    }
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 17px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 20px;
-    }
+canvas {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  background: #091727;
+  border: 1px solid var(--line);
+}
 
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 18px;
-    }
+#simulation {
+  height: 300px;
+}
 
-    .formula {
-      background: #0a192b;
-      border-left: 4px solid var(--yellow);
-      padding: 18px;
-      border-radius: 10px;
-      font-size: 26px;
-      color: var(--yellow);
-      margin: 20px 0;
-      font-weight: bold;
-    }
+#graph {
+  height: 190px;
+}
 
-    canvas {
-      width: 100%;
-      background: #081526;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
+.control {
+  padding: 12px;
+  background: var(--panel2);
+  border-radius: 10px;
+  margin: 12px 0;
+}
 
-    #simulation {
-      height: 300px;
-    }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
 
-    #graph {
-      height: 200px;
-      margin-top: 15px;
-    }
+.control strong {
+  color: var(--yellow);
+}
 
-    .controls {
-      margin-top: 20px;
-    }
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--yellow);
+  cursor: pointer;
+  margin-top: 13px;
+}
 
-    .control {
-      margin-bottom: 20px;
-    }
+button {
+  background: #29445f;
+  color: white;
+  padding: 11px 15px;
+  border: 1px solid #46627f;
+  border-radius: 9px;
+  cursor: pointer;
+  margin: 4px 3px 4px 0;
+}
 
-    .control label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
+button:hover {
+  background: #365a7e;
+}
 
-    .control input {
-      width: 100%;
-      accent-color: var(--yellow);
-    }
+.primary {
+  background: var(--yellow);
+  color: #172334;
+  font-weight: bold;
+}
 
-    .value {
-      color: var(--yellow);
-      font-weight: bold;
-    }
+.primary:hover {
+  background: #ffe0a1;
+}
 
-    .button {
-      padding: 12px 18px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #203a58;
-      color: white;
-      cursor: pointer;
-      margin: 5px 5px 5px 0;
-    }
+.result {
+  padding: 17px;
+  background: #0a2230;
+  border: 1px solid #265766;
+  border-radius: 10px;
+  margin-top: 14px;
+}
 
-    .button.primary {
-      background: var(--yellow);
-      color: #192536;
-      font-weight: bold;
-    }
+.result strong {
+  color: var(--green);
+  font-size: 24px;
+}
 
-    .button:hover {
-      opacity: 0.85;
-    }
+.muted {
+  color: var(--muted);
+  line-height: 1.7;
+}
 
-    .result {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
+.step {
+  background: #0b192a;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 9px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
 
-    .result-box {
-      background: #0b1b2d;
-      border: 1px solid var(--border);
-      padding: 12px;
-      border-radius: 10px;
-    }
+.quiz-input {
+  background: #081625;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  width: 170px;
+  max-width: 100%;
+}
 
-    .result-box small {
-      color: var(--muted);
-    }
+#feedback {
+  color: var(--green);
+  margin-top: 12px;
+}
 
-    .result-box strong {
-      display: block;
-      color: var(--yellow);
-      font-size: 20px;
-      margin-top: 8px;
-    }
+@media (max-width: 900px) {
+  .layout, .content-grid {
+    grid-template-columns: 1fr;
+  }
 
-    .step {
-      background: #0b182a;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      line-height: 1.8;
-    }
+  .sidebar {
+    position: static;
+    max-height: 270px;
+  }
 
-    .step h4 {
-      color: var(--green);
-      margin-top: 0;
-    }
-
-    .quiz-input {
-      padding: 12px;
-      background: #071525;
-      border: 1px solid var(--border);
-      color: white;
-      border-radius: 10px;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 1000px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: relative;
-        height: auto;
-      }
-
-      .main {
-        padding: 15px;
-      }
-
-      .result {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  main { padding: 13px; }
+}
+</style>
 </head>
 
 <body>
 
+<header>
+  <h1>RASYIIQ PHYSICS LAB</h1>
+  <p>Fisika Dasar I | Simulasi Interaktif Per Rumus</p>
+</header>
+
 <div class="layout">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+<aside class="sidebar">
+  <input id="search" placeholder="Cari rumus...">
+  <div id="navigation"></div>
+</aside>
 
-    <div class="logo">
-      RASYIIQ <span>PHYSICS LAB</span>
-    </div>
+<main>
+  <div class="card">
+    <p class="muted" id="chapterName"></p>
+    <h2 id="title"></h2>
+    <div class="formula" id="formula"></div>
+    <p class="muted" id="description"></p>
+  </div>
 
-    <div class="subtitle">
-      Laboratorium Fisika Dasar I
-      <br>
-      Satu rumus. Satu simulasi. Satu soal.
-    </div>
+  <div class="content-grid">
 
-    <input
-      type="text"
-      class="search"
-      id="search"
-      placeholder="Cari rumus..."
-      oninput="renderMenu()"
-    >
+    <div>
+      <div class="card">
+        <h3>Simulasi Fisika</h3>
 
-    <div id="formulaMenu"></div>
+        <canvas id="simulation"></canvas>
 
-  </aside>
+        <p class="muted">
+          Ubah parameter untuk melihat perubahan gerak.
+        </p>
 
-  <!-- MAIN -->
-  <main class="main">
+        <button class="primary" onclick="play()">
+          ▶ Jalankan
+        </button>
 
-    <h1>
-      Belajar Fisika
-      <br>
-      <span>Per Rumus dan Simulasi</span>
-    </h1>
+        <button onclick="resetAnimation()">
+          ↻ Reset
+        </button>
 
-    <p class="description">
-      Ubah parameter, jalankan simulasi, pelajari
-      rumus, dan kerjakan latihan soal.
-    </p>
-
-    <div class="grid">
-
-      <!-- KOLOM KIRI -->
-      <section>
-
-        <div class="card">
-
-          <h2 id="title">Memuat rumus...</h2>
-
-          <p id="explanation"></p>
-
-          <div class="formula" id="formula"></div>
-
-          <h3>Simulasi Interaktif</h3>
-
-          <canvas id="simulation"></canvas>
-
-          <div class="result" id="results"></div>
-
+        <div class="result">
+          Hasil perhitungan:
           <br>
-
-          <button class="button primary" onclick="play()">
-            ▶ Jalankan
-          </button>
-
-          <button class="button" onclick="reset()">
-            ↻ Reset
-          </button>
-
-          <button class="button" onclick="previousFormula()">
-            ← Sebelumnya
-          </button>
-
-          <button class="button" onclick="nextFormula()">
-            Berikutnya →
-          </button>
-
-          <h3>Grafik Fisika</h3>
-
-          <canvas id="graph"></canvas>
-
+          <strong id="result">0</strong>
         </div>
+      </div>
 
-      </section>
-
-      <!-- KOLOM KANAN -->
-      <section>
-
-        <div class="card">
-
-          <h2>⚙️ Eksperimen</h2>
-
-          <p>
-            Geser parameter untuk melihat perubahan hasil.
-          </p>
-
-          <div class="controls" id="controls"></div>
-
-        </div>
-
-        <div class="card">
-
-          <h2>📖 Pembahasan Soal</h2>
-
-          <div class="step">
-            <h4>SOAL</h4>
-            <p id="question"></p>
-          </div>
-
-          <div class="step">
-            <h4>DIKETAHUI</h4>
-            <p id="known"></p>
-          </div>
-
-          <div class="step">
-            <h4>DITANYA</h4>
-            <p id="asked"></p>
-          </div>
-
-          <div class="step">
-            <h4>JAWAB</h4>
-            <div id="answer"></div>
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <h2>🎯 Kuis Mandiri</h2>
-
-          <p id="quizQuestion"></p>
-
-          <input
-            type="number"
-            id="quizInput"
-            class="quiz-input"
-            placeholder="Masukkan jawaban"
-          >
-
-          <button class="button primary" onclick="checkAnswer()">
-            Periksa Jawaban
-          </button>
-
-          <p id="feedback"></p>
-
-        </div>
-
-      </section>
-
+      <div class="card">
+        <h3>Grafik Interaktif</h3>
+        <canvas id="graph"></canvas>
+        <p class="muted">
+          Grafik menunjukkan perubahan hasil ketika
+          parameter pertama diubah.
+        </p>
+      </div>
     </div>
 
-  </main>
+    <div>
+      <div class="card">
+        <h3>Parameter Percobaan</h3>
+        <div id="controls"></div>
+      </div>
 
+      <div class="card">
+        <h3>Contoh Soal</h3>
+        <div id="question" class="step"></div>
+
+        <h3>DIKETAHUI</h3>
+        <div id="known" class="step"></div>
+
+        <h3>DITANYA</h3>
+        <div id="asked" class="step"></div>
+
+        <h3>JAWAB</h3>
+        <div id="solution"></div>
+      </div>
+
+      <div class="card">
+        <h3>Latihan Mandiri</h3>
+        <p class="muted" id="quizQuestion"></p>
+
+        <input
+          id="quizInput"
+          class="quiz-input"
+          type="number"
+          step="any"
+          placeholder="Jawaban"
+        >
+
+        <button class="primary" onclick="checkAnswer()">
+          Periksa
+        </button>
+
+        <button onclick="newQuestion()">
+          Soal Baru
+        </button>
+
+        <p id="feedback"></p>
+      </div>
+    </div>
+
+  </div>
+</main>
 </div>
 
 <script>
 
-const formulas = [
-
-  {
-    chapter: "Kinematika",
-    title: "Perpindahan",
-    formula: "Δx = x₂ − x₁",
-
-    explanation:
-      "Perpindahan merupakan perubahan posisi benda.",
-
-    parameters: [
-      {
-        key: "x1",
-        label: "Posisi awal",
-        value: 3,
-        min: -20,
-        max: 20
-      },
-      {
-        key: "x2",
-        label: "Posisi akhir",
-        value: 15,
-        min: -20,
-        max: 30
-      }
-    ],
-
-    calculate: p => p.x2 - p.x1,
-
-    unit: "m",
-
-    question: p =>
-      `Benda bergerak dari posisi ${p.x1} m
-       menuju ${p.x2} m.
-       Tentukan perpindahannya.`,
-
-    known: p =>
-      `x₁ = ${p.x1} m<br>x₂ = ${p.x2} m`,
-
-    asked: "Perpindahan Δx",
-
-    solution: p => `
-      Δx = x₂ − x₁<br>
-      Δx = ${p.x2} − (${p.x1})<br>
-      <strong>Δx = ${p.x2 - p.x1} m</strong>
-    `
-  },
-
-  {
-    chapter: "Kinematika",
-    title: "Kecepatan Rata-rata",
-    formula: "v = Δx / Δt",
-
-    explanation:
-      "Kecepatan rata-rata adalah perpindahan dibagi waktu.",
-
-    parameters: [
-      {
-        key: "dx",
-        label: "Perpindahan",
-        value: 60,
-        min: 0,
-        max: 200
-      },
-      {
-        key: "t",
-        label: "Waktu",
-        value: 5,
-        min: 1,
-        max: 20
-      }
-    ],
-
-    calculate: p => p.dx / p.t,
-
-    unit: "m/s",
-
-    question: p =>
-      `Benda berpindah ${p.dx} meter
-       selama ${p.t} detik.
-       Tentukan kecepatan rata-ratanya.`,
-
-    known: p =>
-      `Δx = ${p.dx} m<br>Δt = ${p.t} s`,
-
-    asked: "Kecepatan rata-rata",
-
-    solution: p => `
-      v = Δx / Δt<br>
-      v = ${p.dx} / ${p.t}<br>
-      <strong>v = ${(p.dx / p.t).toFixed(2)} m/s</strong>
-    `
-  },
-
-  {
-    chapter: "Kinematika",
-    title: "GLBB: Kecepatan Akhir",
-    formula: "v = v₀ + at",
-
-    explanation:
-      "Digunakan untuk menentukan kecepatan akhir
-       ketika percepatan konstan.",
-
-    parameters: [
-      {
-        key: "v0",
-        label: "Kecepatan awal",
-        value: 4,
-        min: 0,
-        max: 20
-      },
-      {
-        key: "a",
-        label: "Percepatan",
-        value: 2,
-        min: -5,
-        max: 10
-      },
-      {
-        key: "t",
-        label: "Waktu",
-        value: 3,
-        min: 0,
-        max: 15
-      }
-    ],
-
-    calculate: p => p.v0 + p.a * p.t,
-
-    unit: "m/s",
-
-    question: p =>
-      `Sebuah benda memiliki kecepatan awal
-       ${p.v0} m/s dan percepatan ${p.a} m/s².
-       Tentukan kecepatan setelah ${p.t} detik.`,
-
-    known: p =>
-      `v₀ = ${p.v0} m/s<br>
-       a = ${p.a} m/s²<br>
-       t = ${p.t} s`,
-
-    asked: "Kecepatan akhir",
-
-    solution: p => `
-      v = v₀ + at<br>
-      v = ${p.v0} + (${p.a} × ${p.t})<br>
-      <strong>v = ${p.v0 + p.a * p.t} m/s</strong>
-    `
-  },
-
-  {
-    chapter: "Kinematika",
-    title: "GLBB: Perpindahan",
-    formula: "Δx = v₀t + ½at²",
-
-    explanation:
-      "Digunakan untuk menghitung perpindahan
-       ketika benda mengalami percepatan konstan.",
-
-    parameters: [
-      {
-        key: "v0",
-        label: "Kecepatan awal",
-        value: 4,
-        min: 0,
-        max: 20
-      },
-      {
-        key: "a",
-        label: "Percepatan",
-        value: 2,
-        min: -5,
-        max: 10
-      },
-      {
-        key: "t",
-        label: "Waktu",
-        value: 3,
-        min: 0,
-        max: 15
-      }
-    ],
-
-    calculate: p =>
-      p.v0 * p.t + 0.5 * p.a * p.t * p.t,
-
-    unit: "m",
-
-    question: p =>
-      `Benda memiliki v₀ = ${p.v0} m/s,
-       a = ${p.a} m/s², dan t = ${p.t} s.
-       Hitung perpindahannya.`,
-
-    known: p =>
-      `v₀ = ${p.v0} m/s<br>
-       a = ${p.a} m/s²<br>
-       t = ${p.t} s`,
-
-    asked: "Perpindahan Δx",
-
-    solution: p => {
-
-      let first = p.v0 * p.t;
-      let second = 0.5 * p.a * p.t * p.t;
-
-      return `
-        Δx = v₀t + ½at²<br><br>
-
-        Δx = (${p.v0} × ${p.t})
-        + ½(${p.a})(${p.t})²<br><br>
-
-        Δx = ${first} + ${second}<br><br>
-
-        <strong>Δx = ${first + second} m</strong>
-      `;
-    }
-  },
-
-  {
-    chapter: "Dinamika",
-    title: "Hukum II Newton",
-    formula: "F = ma",
-
-    explanation:
-      "Resultan gaya menghasilkan percepatan
-       pada benda bermassa tertentu.",
-
-    parameters: [
-      {
-        key: "m",
-        label: "Massa",
-        value: 5,
-        min: 1,
-        max: 30
-      },
-      {
-        key: "a",
-        label: "Percepatan",
-        value: 4,
-        min: 0,
-        max: 20
-      }
-    ],
-
-    calculate: p => p.m * p.a,
-
-    unit: "N",
-
-    question: p =>
-      `Benda bermassa ${p.m} kg mengalami
-       percepatan ${p.a} m/s².
-       Tentukan resultan gayanya.`,
-
-    known: p =>
-      `m = ${p.m} kg<br>a = ${p.a} m/s²`,
-
-    asked: "Resultan gaya F",
-
-    solution: p => `
-      F = ma<br>
-      F = ${p.m} × ${p.a}<br>
-      <strong>F = ${p.m * p.a} N</strong>
-    `
-  },
-
-  {
-    chapter: "Usaha dan Energi",
-    title: "Energi Kinetik",
-    formula: "Ek = ½mv²",
-
-    explanation:
-      "Energi kinetik merupakan energi
-       yang dimiliki benda karena gerakannya.",
-
-    parameters: [
-      {
-        key: "m",
-        label: "Massa",
-        value: 2,
-        min: 1,
-        max: 20
-      },
-      {
-        key: "v",
-        label: "Kecepatan",
-        value: 6,
-        min: 0,
-        max: 30
-      }
-    ],
-
-    calculate: p => 0.5 * p.m * p.v * p.v,
-
-    unit: "J",
-
-    question: p =>
-      `Benda bermassa ${p.m} kg bergerak
-       dengan kecepatan ${p.v} m/s.
-       Hitung energi kinetiknya.`,
-
-    known: p =>
-      `m = ${p.m} kg<br>v = ${p.v} m/s`,
-
-    asked: "Energi kinetik",
-
-    solution: p => `
-      Ek = ½mv²<br>
-      Ek = ½(${p.m})(${p.v})²<br>
-      <strong>Ek = ${0.5 * p.m * p.v * p.v} J</strong>
-    `
-  }
-
-];
-
-let current = 0;
-let parameters = {};
-let animationTime = 0;
-let running = false;
-let animationFrame = null;
+// ======================================
+// 1. KONFIGURASI DASAR
+// ======================================
 
 const $ = id => document.getElementById(id);
 
-function renderMenu() {
+const PI = Math.PI;
 
-  const menu = $("formulaMenu");
+const sin = degree => Math.sin(degree * PI / 180);
+const cos = degree => Math.cos(degree * PI / 180);
+
+const fmt = n => {
+  if (!Number.isFinite(n)) return "Tidak terdefinisi";
+  return Number(n.toFixed(3)).toLocaleString("id-ID");
+};
+
+// Informasi variabel fisika
+const variables = {
+  x1: ["Posisi awal", "m", -20, 20, 1],
+  x2: ["Posisi akhir", "m", -20, 80, 1],
+  dx: ["Perpindahan", "m", -50, 120, 1],
+  t: ["Waktu", "s", 0.5, 15, 0.5],
+  v: ["Kecepatan", "m/s", 0, 30, 0.5],
+  v0: ["Kecepatan awal", "m/s", 0, 30, 0.5],
+  v1: ["Kecepatan awal", "m/s", -10, 30, 1],
+  v2: ["Kecepatan akhir", "m/s", -10, 30, 1],
+  vi: ["Kecepatan awal", "m/s", 0, 30, 1],
+  vf: ["Kecepatan akhir", "m/s", 0, 30, 1],
+  a: ["Percepatan", "m/s²", -5, 10, 0.5],
+  a0: ["Percepatan awal", "m/s²", 0, 10, 0.5],
+  j: ["Perubahan percepatan", "m/s³", 0, 5, 0.5],
+  m: ["Massa", "kg", 1, 30, 1],
+  m1: ["Massa pertama", "kg", 1, 20, 1],
+  m2: ["Massa kedua", "kg", 1, 20, 1],
+  F: ["Gaya", "N", 0, 150, 1],
+  f: ["Gaya gesek", "N", 0, 50, 1],
+  N: ["Gaya normal", "N", 1, 200, 1],
+  mu: ["Koefisien gesek", "", 0, 1, 0.05],
+  theta: ["Sudut", "°", 0, 180, 1],
+  g: ["Gravitasi", "m/s²", 8, 12, 0.1],
+  r: ["Jari-jari", "m", 1, 20, 0.5],
+  d: ["Jarak", "m", 0, 30, 0.5],
+  h: ["Ketinggian", "m", 0, 30, 0.5],
+  y0: ["Tinggi awal", "m", 0, 20, 1],
+  k: ["Konstanta", "", 1, 500, 1],
+  x: ["Regangan pegas", "m", 0, 1, 0.05],
+  W: ["Usaha", "J", 0, 1500, 10],
+  Ep: ["Energi potensial", "J", 0, 500, 10],
+  Ek: ["Energi kinetik", "J", 0, 500, 10]
+};
+
+// ======================================
+// 2. DATABASE RUMUS
+// ======================================
+
+const labs = [];
+
+// Fungsi untuk mendaftarkan rumus baru
+function add(
+  chapter, title, formula,
+  description, defaults, calculate,
+  unit, scene = "straight"
+) {
+  labs.push({
+    chapter,
+    title,
+    formula,
+    description,
+    defaults,
+    calculate,
+    unit,
+    scene,
+    values: { ...defaults }
+  });
+}
+
+// ======================================
+// BAB 1: KINEMATIKA
+// ======================================
+
+add(
+  "Kinematika",
+  "Perpindahan",
+  "Δx = x₂ - x₁",
+  "Menghitung perubahan posisi benda.",
+  {x1:3,x2:15},
+  p => p.x2-p.x1,
+  "m"
+);
+
+add(
+  "Kinematika",
+  "Kecepatan Rata-Rata",
+  "v = Δx / Δt",
+  "Perpindahan dibagi selang waktu.",
+  {dx:60,t:5},
+  p => p.dx/p.t,
+  "m/s"
+);
+
+add(
+  "Kinematika",
+  "Percepatan Rata-Rata",
+  "a = (v₂-v₁)/t",
+  "Menghitung perubahan kecepatan per waktu.",
+  {v1:4,v2:16,t:3},
+  p => (p.v2-p.v1)/p.t,
+  "m/s²"
+);
+
+add(
+  "Kinematika",
+  "Gerak Lurus Beraturan",
+  "x = x₁ + vt",
+  "Benda bergerak dengan kecepatan konstan.",
+  {x1:10,v:5,t:6},
+  p => p.x1+p.v*p.t,
+  "m"
+);
+
+add(
+  "Kinematika",
+  "GLBB Kecepatan Akhir",
+  "v = v₀ + at",
+  "Kecepatan akhir saat percepatan konstan.",
+  {v0:6,a:2,t:4},
+  p => p.v0+p.a*p.t,
+  "m/s"
+);
+
+add(
+  "Kinematika",
+  "GLBB Perpindahan",
+  "Δx = v₀t + ½at²",
+  "Perpindahan dengan percepatan konstan.",
+  {v0:4,a:2,t:3},
+  p => p.v0*p.t+0.5*p.a*p.t**2,
+  "m"
+);
+
+add(
+  "Kinematika",
+  "GLBB Tanpa Waktu",
+  "v² = v₀² + 2aΔx",
+  "Menentukan besar kecepatan tanpa waktu.",
+  {v0:8,a:2,dx:15},
+  p => Math.sqrt(Math.max(0,p.v0**2+2*p.a*p.dx)),
+  "m/s"
+);
+
+add(
+  "Kinematika",
+  "Perpindahan dari Kecepatan Rata-Rata",
+  "Δx = ½(v₁+v₂)t",
+  "Digunakan ketika percepatan konstan.",
+  {v1:4,v2:12,t:5},
+  p => (p.v1+p.v2)*p.t/2,
+  "m"
+);
+
+add(
+  "Kinematika",
+  "Turunan Posisi",
+  "v(t) = dx/dt",
+  "Turunan posisi menghasilkan kecepatan.",
+  {v0:4,a:2,t:3},
+  p => p.v0+p.a*p.t,
+  "m/s",
+  "graph"
+);
+
+add(
+  "Kinematika",
+  "Turunan Kecepatan",
+  "a(t) = dv/dt",
+  "Turunan fungsi kecepatan menghasilkan percepatan.",
+  {v0:4,a:2,t:3},
+  p => p.a,
+  "m/s²",
+  "graph"
+);
+
+add(
+  "Kinematika",
+  "Integral Kecepatan",
+  "Δx = ∫₀ᵗ (v₀+aτ)dτ",
+  "Luas bertanda grafik kecepatan menghasilkan perpindahan.",
+  {v0:4,a:2,t:3},
+  p => p.v0*p.t+0.5*p.a*p.t**2,
+  "m",
+  "graph"
+);
+
+add(
+  "Kinematika",
+  "Integral Percepatan",
+  "Δv = ∫₀ᵗ (a₀+jτ)dτ",
+  "Luas bertanda grafik percepatan menghasilkan Δv.",
+  {a0:2,j:1,t:4},
+  p => p.a0*p.t+0.5*p.j*p.t**2,
+  "m/s",
+  "graph"
+);
+
+// ======================================
+// BAB 2: PROYEKTIL
+// ======================================
+
+add(
+  "Proyektil",
+  "Kecepatan Horizontal",
+  "vₓ = v₀ cos θ",
+  "Komponen kecepatan sumbu X.",
+  {v0:20,theta:30},
+  p => p.v0*cos(p.theta),
+  "m/s",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Kecepatan Vertikal",
+  "vᵧ = v₀ sin θ",
+  "Komponen kecepatan awal sumbu Y.",
+  {v0:20,theta:30},
+  p => p.v0*sin(p.theta),
+  "m/s",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Posisi Horizontal",
+  "x = v₀ cos θ × t",
+  "Posisi horizontal setelah t detik.",
+  {v0:20,theta:30,t:1},
+  p => p.v0*cos(p.theta)*p.t,
+  "m",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Posisi Vertikal",
+  "y = y₀+v₀ sin θ × t-½gt²",
+  "Posisi vertikal terhadap titik acuan.",
+  {v0:20,theta:30,t:1,g:10,y0:0},
+  p => p.y0+p.v0*sin(p.theta)*p.t-0.5*p.g*p.t**2,
+  "m",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Waktu Menuju Puncak",
+  "tₚ = v₀ sin θ/g",
+  "Waktu ketika kecepatan vertikal mencapai nol.",
+  {v0:20,theta:30,g:10},
+  p => p.v0*sin(p.theta)/p.g,
+  "s",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Tinggi Maksimum",
+  "H = v₀² sin² θ/(2g)",
+  "Kenaikan ketinggian maksimum dari titik luncur.",
+  {v0:20,theta:30,g:10},
+  p => (p.v0*sin(p.theta))**2/(2*p.g),
+  "m",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Waktu Terbang",
+  "T = 2v₀ sin θ/g",
+  "Untuk titik awal dan akhir dengan ketinggian sama.",
+  {v0:20,theta:30,g:10},
+  p => 2*p.v0*sin(p.theta)/p.g,
+  "s",
+  "projectile"
+);
+
+add(
+  "Proyektil",
+  "Jangkauan Horizontal",
+  "R = v₀² sin(2θ)/g",
+  "Jarak horizontal dengan ketinggian awal dan akhir sama.",
+  {v0:20,theta:30,g:10},
+  p => p.v0**2*sin(2*p.theta)/p.g,
+  "m",
+  "projectile"
+);
+
+// ======================================
+// BAB 3: DINAMIKA
+// ======================================
+
+add(
+  "Dinamika",
+  "Hukum II Newton",
+  "ΣF = ma",
+  "Percepatan dari resultan gaya horizontal.",
+  {F:30,f:10,m:5},
+  p => (p.F-p.f)/p.m,
+  "m/s²",
+  "force"
+);
+
+add(
+  "Dinamika",
+  "Gaya Normal",
+  "N = mg",
+  "Lantai horizontal tanpa gaya vertikal lain.",
+  {m:10,g:10},
+  p => p.m*p.g,
+  "N",
+  "force"
+);
+
+add(
+  "Dinamika",
+  "Gesekan Kinetis",
+  "fₖ = μₖmg",
+  "Gesekan ketika benda meluncur di lantai horizontal.",
+  {mu:0.2,m:10,g:10},
+  p => p.mu*p.m*p.g,
+  "N",
+  "force"
+);
+
+add(
+  "Dinamika",
+  "Gesekan Statis Maksimum",
+  "fₛ,max = μₛmg",
+  "Batas maksimum gesekan statis pada lantai datar.",
+  {mu:0.4,m:10,g:10},
+  p => p.mu*p.m*p.g,
+  "N",
+  "force"
+);
+
+add(
+  "Dinamika",
+  "Komponen Berat Sejajar",
+  "F∥ = mg sin θ",
+  "Gaya gravitasi sepanjang bidang miring.",
+  {m:5,g:10,theta:30},
+  p => p.m*p.g*sin(p.theta),
+  "N",
+  "incline"
+);
+
+add(
+  "Dinamika",
+  "Komponen Berat Tegak Lurus",
+  "F⊥ = mg cos θ",
+  "Komponen berat tegak lurus bidang miring.",
+  {m:5,g:10,theta:30},
+  p => p.m*p.g*cos(p.theta),
+  "N",
+  "incline"
+);
+
+add(
+  "Dinamika",
+  "Percepatan Bidang Miring",
+  "a = g sin θ",
+  "Percepatan benda pada bidang miring licin.",
+  {g:10,theta:30},
+  p => p.g*sin(p.theta),
+  "m/s²",
+  "incline"
+);
+
+add(
+  "Dinamika",
+  "Katrol Percepatan",
+  "a = (m₂-m₁)g/(m₁+m₂)",
+  "Katrol Atwood ideal, m₂ turun positif.",
+  {m1:3,m2:5,g:10},
+  p => (p.m2-p.m1)*p.g/(p.m1+p.m2),
+  "m/s²",
+  "pulley"
+);
+
+add(
+  "Dinamika",
+  "Tegangan Tali Katrol",
+  "T = 2m₁m₂g/(m₁+m₂)",
+  "Tegangan tali pada katrol Atwood ideal.",
+  {m1:3,m2:5,g:10},
+  p => 2*p.m1*p.m2*p.g/(p.m1+p.m2),
+  "N",
+  "pulley"
+);
+
+add(
+  "Dinamika",
+  "Percepatan Dua Balok",
+  "a = F/(m₁+m₂)",
+  "Dua balok bergerak bersama pada lantai licin.",
+  {F:10,m1:2,m2:3},
+  p => p.F/(p.m1+p.m2),
+  "m/s²",
+  "stack"
+);
+
+add(
+  "Dinamika",
+  "Koefisien Gesek Minimum",
+  "μₛ,min = F/((m₁+m₂)g)",
+  "Agar balok atas tidak tergelincir.",
+  {F:10,m1:2,m2:3,g:10},
+  p => p.F/((p.m1+p.m2)*p.g),
+  "",
+  "stack"
+);
+
+add(
+  "Dinamika",
+  "Percepatan Sentripetal",
+  "aₛ = v²/r",
+  "Percepatan menuju pusat lingkaran.",
+  {v:6,r:3},
+  p => p.v**2/p.r,
+  "m/s²",
+  "circle"
+);
+
+add(
+  "Dinamika",
+  "Gaya Sentripetal",
+  "Fₛ = mv²/r",
+  "Resultan gaya menuju pusat lingkaran.",
+  {m:2,v:6,r:3},
+  p => p.m*p.v**2/p.r,
+  "N",
+  "circle"
+);
+
+add(
+  "Dinamika",
+  "Kecepatan Sudut",
+  "ω = v/r",
+  "Konversi kelajuan tangensial ke kecepatan sudut.",
+  {v:6,r:3},
+  p => p.v/p.r,
+  "rad/s",
+  "circle"
+);
+
+add(
+  "Dinamika",
+  "Periode Gerak Melingkar",
+  "T = 2πr/v",
+  "Waktu untuk melakukan satu putaran.",
+  {r:3,v:6},
+  p => 2*PI*p.r/p.v,
+  "s",
+  "circle"
+);
+
+// ======================================
+// BAB 4: USAHA DAN ENERGI
+// ======================================
+
+add(
+  "Usaha & Energi",
+  "Usaha Gaya Konstan",
+  "W = Fd cos θ",
+  "Usaha oleh gaya dengan sudut tertentu.",
+  {F:50,d:4,theta:60},
+  p => p.F*p.d*cos(p.theta),
+  "J",
+  "force"
+);
+
+add(
+  "Usaha & Energi",
+  "Integral Usaha",
+  "W = ∫₀ᵈ kx dx = ½kd²",
+  "Usaha oleh gaya F(x)=kx dari 0 hingga d.",
+  {k:3,d:2},
+  p => 0.5*p.k*p.d**2,
+  "J",
+  "graph"
+);
+
+add(
+  "Usaha & Energi",
+  "Energi Kinetik",
+  "Ek = ½mv²",
+  "Energi yang dimiliki benda karena gerak.",
+  {m:2,v:6},
+  p => 0.5*p.m*p.v**2,
+  "J",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Teorema Usaha Energi",
+  "Wnet = ½m(vf²-vi²)",
+  "Usaha total sama dengan perubahan energi kinetik.",
+  {m:2,vi:3,vf:7},
+  p => 0.5*p.m*(p.vf**2-p.vi**2),
+  "J",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Energi Potensial Gravitasi",
+  "Ep = mgh",
+  "Energi potensial relatif terhadap tinggi acuan.",
+  {m:3,g:10,h:5},
+  p => p.m*p.g*p.h,
+  "J",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Energi Potensial Pegas",
+  "Ep = ½kx²",
+  "Energi yang tersimpan pada pegas ideal.",
+  {k:200,x:0.1},
+  p => 0.5*p.k*p.x**2,
+  "J",
+  "spring"
+);
+
+add(
+  "Usaha & Energi",
+  "Energi Mekanik",
+  "Em = ½mv² + mgh",
+  "Jumlah energi kinetik dan potensial gravitasi.",
+  {m:2,v:5,g:10,h:3},
+  p => 0.5*p.m*p.v**2+p.m*p.g*p.h,
+  "J",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Kekekalan Energi Saat Jatuh",
+  "v = √(2gh)",
+  "Kelajuan benda yang jatuh dari diam tanpa hambatan.",
+  {g:10,h:5},
+  p => Math.sqrt(2*p.g*p.h),
+  "m/s",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Usaha Gesekan",
+  "Wgesek = -fd",
+  "Perubahan energi mekanik akibat gesekan.",
+  {f:4,d:5},
+  p => -p.f*p.d,
+  "J",
+  "force"
+);
+
+add(
+  "Usaha & Energi",
+  "Daya Rata-Rata",
+  "P = W/t",
+  "Usaha yang dilakukan setiap satuan waktu.",
+  {W:600,t:12},
+  p => p.W/p.t,
+  "W",
+  "energy"
+);
+
+add(
+  "Usaha & Energi",
+  "Daya Sesaat",
+  "P = Fv cos θ",
+  "Daya yang dihasilkan gaya pada benda bergerak.",
+  {F:40,v:5,theta:30},
+  p => p.F*p.v*cos(p.theta),
+  "W",
+  "force"
+);
+
+// ======================================
+// 3. NAVIGASI
+// ======================================
+
+let current = 0;
+let phase = 0;
+let running = false;
+let quizData = null;
+
+function buildNavigation() {
+  const nav = $("navigation");
   const search = $("search").value.toLowerCase();
 
-  menu.innerHTML = "";
-
+  nav.innerHTML = "";
   let chapter = "";
 
-  formulas.forEach((f, index) => {
+  labs.forEach((lab,index) => {
+    const text = (
+      lab.title+" "+lab.formula+" "+lab.chapter
+    ).toLowerCase();
 
-    if (
-      !f.title.toLowerCase().includes(search) &&
-      !f.chapter.toLowerCase().includes(search)
-    ) {
-      return;
-    }
+    if (!text.includes(search)) return;
 
-    if (chapter !== f.chapter) {
-
-      chapter = f.chapter;
+    if (lab.chapter !== chapter) {
+      chapter = lab.chapter;
 
       const heading = document.createElement("div");
       heading.className = "chapter";
       heading.textContent = chapter;
-
-      menu.appendChild(heading);
+      nav.appendChild(heading);
     }
 
     const button = document.createElement("button");
-
     button.className =
-      "nav-item" + (index === current ? " active" : "");
+      "nav-button"+(current===index?" active":"");
 
-    button.textContent = f.title;
+    button.textContent =
+      (index+1)+". "+lab.title;
 
-    button.onclick = () => loadFormula(index);
-
-    menu.appendChild(button);
+    button.onclick = () => selectLab(index);
+    nav.appendChild(button);
   });
 }
 
-function loadFormula(index) {
+$("search").addEventListener("input",buildNavigation);
 
-  running = false;
-  cancelAnimationFrame(animationFrame);
+// ======================================
+// 4. PEMILIHAN RUMUS
+// ======================================
 
+function selectLab(index) {
   current = index;
-  animationTime = 0;
+  phase = 0;
+  running = false;
 
-  const f = formulas[current];
+  const lab = labs[current];
 
-  parameters = {};
+  $("chapterName").textContent =
+    lab.chapter+" | Rumus "+(index+1)+" dari "+labs.length;
 
-  f.parameters.forEach(p => {
-    parameters[p.key] = p.value;
-  });
+  $("title").textContent = lab.title;
+  $("formula").textContent = lab.formula;
+  $("description").textContent = lab.description;
 
-  $("title").textContent = f.title;
-  $("formula").textContent = f.formula;
-  $("explanation").textContent = f.explanation;
-
-  renderControls();
-  renderMenu();
+  buildNavigation();
+  buildControls();
   update();
+
+  newQuestion();
 }
 
-function renderControls() {
+// ======================================
+// 5. SLIDER PARAMETER
+// ======================================
 
-  const container = $("controls");
+function buildControls() {
+  const lab = labs[current];
+  const box = $("controls");
 
-  container.innerHTML = "";
+  box.innerHTML = "";
 
-  const f = formulas[current];
+  Object.keys(lab.values).forEach(key => {
+    const info = variables[key];
+    const value = lab.values[key];
 
-  f.parameters.forEach(p => {
+    const row = document.createElement("div");
+    row.className = "control";
 
-    const div = document.createElement("div");
+    const label = document.createElement("label");
+    const name = document.createElement("span");
+    name.textContent = info[0];
 
-    div.className = "control";
+    const display = document.createElement("strong");
+    display.textContent = fmt(value)+" "+info[1];
 
-    div.innerHTML = `
-      <label>
-        ${p.label}
-        <span class="value" id="value-${p.key}">
-          ${parameters[p.key]}
-        </span>
-      </label>
+    label.append(name,display);
 
-      <input
-        type="range"
-        min="${p.min}"
-        max="${p.max}"
-        step="0.1"
-        value="${parameters[p.key]}"
-        id="slider-${p.key}"
-      >
-    `;
-
-    container.appendChild(div);
-
-    const slider = $("slider-" + p.key);
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = info[2];
+    slider.max = info[3];
+    slider.step = info[4];
+    slider.value = value;
 
     slider.oninput = () => {
-
-      parameters[p.key] = Number(slider.value);
-
-      $("value-" + p.key).textContent =
-        parameters[p.key];
-
+      lab.values[key] = Number(slider.value);
+      display.textContent = fmt(lab.values[key])+" "+info[1];
       update();
+      quizData = null;
+      $("feedback").textContent =
+        "Parameter berubah. Tekan Soal Baru untuk latihan.";
     };
+
+    row.append(label,slider);
+    box.appendChild(row);
   });
+}
+
+// ======================================
+// 6. PERHITUNGAN DAN PEMBAHASAN
+// ======================================
+
+function calculate(lab,p) {
+  try {
+    return lab.calculate(p);
+  } catch (error) {
+    return NaN;
+  }
 }
 
 function update() {
+  const lab = labs[current];
+  const p = lab.values;
+  const answer = calculate(lab,p);
 
-  const f = formulas[current];
+  $("result").textContent =
+    fmt(answer)+" "+lab.unit;
 
-  const result = f.calculate(parameters);
+  const known = Object.entries(p).map(([key,value]) => {
+    return key+" = "+fmt(value)+" "+variables[key][1];
+  });
 
-  $("results").innerHTML = `
-    <div class="result-box">
-      <small>Hasil Perhitungan</small>
-      <strong>${result.toFixed(2)} ${f.unit}</strong>
-    </div>
+  $("question").textContent =
+    "Gunakan rumus "+lab.formula+
+    " untuk menghitung "+lab.title.toLowerCase()+".";
 
-    <div class="result-box">
-      <small>Jumlah Parameter</small>
-      <strong>${f.parameters.length}</strong>
-    </div>
+  $("known").innerHTML = known.join("<br>");
 
-    <div class="result-box">
-      <small>Nomor Rumus</small>
-      <strong>${current + 1}</strong>
-    </div>
-  `;
+  $("asked").textContent = lab.title+" = ?";
 
-  $("question").innerHTML = f.question(parameters);
-  $("known").innerHTML = f.known(parameters);
-  $("asked").innerHTML = f.asked;
-  $("answer").innerHTML = f.solution(parameters);
+  let steps = [];
 
-  $("quizQuestion").textContent =
-    "Hitung hasil menggunakan parameter di atas.";
+  steps.push("1. Tulis rumus: "+lab.formula);
 
-  $("feedback").textContent = "";
+  steps.push(
+    "2. Nilai yang digunakan: "+
+    Object.entries(p).map(([k,v])=>k+" = "+fmt(v)).join(", ")
+  );
 
-  drawSimulation();
+  if (lab.title==="Integral Kecepatan") {
+    const first = p.v0*p.t;
+    const second = 0.5*p.a*p.t**2;
+
+    steps = [
+      "1. Diketahui v(t) = "+fmt(p.v0)+" + "+
+        fmt(p.a)+"t.",
+      "2. Integral kecepatan: Δx = ∫₀ᵗ v(τ)dτ.",
+      "3. Hasil integral: Δx = ["+
+        fmt(p.v0)+"τ + ½("+fmt(p.a)+")τ²]₀^"+
+        fmt(p.t)+".",
+      "4. Masukkan batas atas: "+
+        fmt(p.v0)+"("+fmt(p.t)+") + ½("+
+        fmt(p.a)+")("+fmt(p.t)+")².",
+      "5. Hitung tiap bagian: "+
+        fmt(first)+" + "+fmt(second)+".",
+      "6. Kurangi hasil batas bawah (0).",
+      "7. Δx = "+fmt(answer)+" m."
+    ];
+  } else if (lab.title==="GLBB Perpindahan") {
+    steps = [
+      "1. Gunakan Δx = v₀t + ½at².",
+      "2. Masukkan: ("+fmt(p.v0)+")("+
+        fmt(p.t)+") + ½("+fmt(p.a)+")("+
+        fmt(p.t)+")².",
+      "3. Bagian pertama v₀t = "+fmt(p.v0*p.t)+".",
+      "4. Bagian kedua ½at² = "+
+        fmt(0.5*p.a*p.t**2)+".",
+      "5. Jumlahkan = "+fmt(answer)+" m."
+    ];
+  } else {
+    steps.push(
+      "3. Hitung sesuai urutan operasi: "+
+      "kurung, pangkat, kali/bagi, tambah/kurang."
+    );
+    steps.push(
+      "4. Hasil = "+fmt(answer)+" "+lab.unit+"."
+    );
+  }
+
+  $("solution").innerHTML = "";
+
+  steps.forEach(step => {
+    const div = document.createElement("div");
+    div.className = "step";
+    div.textContent = step;
+    $("solution").appendChild(div);
+  });
+
+  drawScene();
   drawGraph();
 }
 
-function drawSimulation() {
+// ======================================
+// 7. ANIMASI CANVAS
+// ======================================
 
-  const canvas = $("simulation");
+const sceneCanvas = $("simulation");
+const sceneCtx = sceneCanvas.getContext("2d");
+
+function setupCanvas(canvas) {
+  const bounds = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = Math.round(bounds.width*ratio);
+  canvas.height = Math.round(bounds.height*ratio);
+
   const ctx = canvas.getContext("2d");
+  ctx.setTransform(ratio,0,0,ratio,0,0);
 
-  canvas.width = canvas.clientWidth;
-  canvas.height = 300;
-
-  const w = canvas.width;
-  const h = canvas.height;
-
-  ctx.clearRect(0, 0, w, h);
-
-  ctx.fillStyle = "#081526";
-  ctx.fillRect(0, 0, w, h);
-
-  // Lantai
-  ctx.strokeStyle = "#45627f";
-  ctx.lineWidth = 3;
-
-  ctx.beginPath();
-  ctx.moveTo(30, h - 65);
-  ctx.lineTo(w - 30, h - 65);
-  ctx.stroke();
-
-  // Posisi benda
-  const x = 50 + (animationTime * 80) % Math.max(1, w - 110);
-  const y = h - 105;
-
-  ctx.fillStyle = "#ffce70";
-  ctx.fillRect(x, y, 45, 40);
-
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "14px Arial";
-
-  ctx.fillText("Benda", x, y - 12);
-
-  // Panah gerak
-  ctx.strokeStyle = "#7de5ba";
-  ctx.lineWidth = 3;
-
-  ctx.beginPath();
-  ctx.moveTo(x + 20, y - 35);
-  ctx.lineTo(x + 95, y - 35);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(x + 95, y - 35);
-  ctx.lineTo(x + 85, y - 42);
-  ctx.moveTo(x + 95, y - 35);
-  ctx.lineTo(x + 85, y - 28);
-  ctx.stroke();
-
-  ctx.fillStyle = "#7de5ba";
-  ctx.fillText("Arah gerak", x + 20, y - 48);
+  return {
+    ctx,
+    w: bounds.width,
+    h: bounds.height
+  };
 }
 
-function drawGraph() {
-
-  const canvas = $("graph");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = canvas.clientWidth;
-  canvas.height = 200;
-
-  const w = canvas.width;
-  const h = canvas.height;
-
-  ctx.clearRect(0, 0, w, h);
-
-  ctx.fillStyle = "#081526";
-  ctx.fillRect(0, 0, w, h);
-
-  // Sumbu grafik
-  ctx.strokeStyle = "#7890ab";
-  ctx.lineWidth = 1;
-
+function line(ctx,x1,y1,x2,y2,color,width=2) {
   ctx.beginPath();
-  ctx.moveTo(45, 15);
-  ctx.lineTo(45, h - 30);
-  ctx.lineTo(w - 15, h - 30);
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
   ctx.stroke();
+}
 
-  ctx.fillStyle = "#a7bad3";
-  ctx.font = "12px Arial";
-
-  ctx.fillText("Nilai", 10, 20);
-  ctx.fillText("Waktu", w - 55, h - 8);
-
-  const result = formulas[current].calculate(parameters);
-
-  const scale = Math.max(1, Math.abs(result));
-
-  ctx.strokeStyle = "#ffce70";
-  ctx.lineWidth = 3;
-
+function circle(ctx,x,y,r,color) {
   ctx.beginPath();
+  ctx.arc(x,y,r,0,2*PI);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
 
-  for (let i = 0; i <= 100; i++) {
+function drawScene() {
+  const lab = labs[current];
+  const p = lab.values;
 
-    const t = i / 100;
+  const {ctx,w,h} = setupCanvas(sceneCanvas);
+  const t = phase;
 
-    const x = 45 + t * (w - 65);
+  ctx.clearRect(0,0,w,h);
 
-    const y =
-      h - 30 -
-      (Math.abs(result) * t / scale) * (h - 65);
+  // Garis tanah
+  const ground = h*0.78;
+  line(ctx,20,ground,w-20,ground,"#60758e",2);
 
-    if (i === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
+  if (lab.scene==="projectile") {
+    const v0 = p.v0 || 20;
+    const theta = p.theta || 0;
+    const g = p.g || 10;
+
+    const vx = v0*cos(theta);
+    const vy = v0*sin(theta);
+
+    const T = Math.max(0.1,2*vy/g);
+    const R = Math.max(1,vx*T);
+
+    const scaleX = (w-70)/Math.max(R,20);
+    const maxH = Math.max(1,vy*vy/(2*g));
+    const scaleY = (h*0.55)/Math.max(maxH,5);
+
+    ctx.beginPath();
+
+    for (let i=0;i<=100;i++) {
+      const time = T*i/100;
+      const x = vx*time;
+      const y = vy*time-0.5*g*time*time;
+
+      const sx = 30+x*scaleX;
+      const sy = ground-y*scaleY;
+
+      if (i===0) ctx.moveTo(sx,sy);
+      else ctx.lineTo(sx,sy);
     }
-  }
 
-  ctx.stroke();
+    ctx.strokeStyle = "#6bbcff";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    const time = t*T;
+
+    const ballX = 30+vx*time*scaleX;
+    const ballY = ground-
+      (vy*time-0.5*g*time*time)*scaleY;
+
+    circle(ctx,ballX,ballY,9,"#ffd176");
+
+    ctx.fillStyle = "#d6e7fb";
+    ctx.fillText("Lintasan proyektil",20,24);
+
+  } else if (lab.scene==="circle") {
+    const cx = w/2;
+    const cy = h/2;
+    const r = Math.min(w,h)*0.27;
+    const angle = t*2*PI;
+
+    ctx.beginPath();
+    ctx.arc(cx,cy,r,0,2*PI);
+    ctx.strokeStyle = "#6bbcff";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    circle(ctx,cx,cy,5,"#ffd176");
+
+    const x = cx+r*Math.cos(angle);
+    const y = cy+r*Math.sin(angle);
+
+    line(ctx,cx,cy,x,y,"#7ee1bb",2);
+    circle(ctx,x,y,11,"#ffd176");
+
+    ctx.fillStyle = "#d6e7fb";
+    ctx.fillText("Gerak melingkar",20,24);
+
+  } else if (lab.scene==="incline") {
+    const ax = 40, ay = ground;
+    const bx = w-50, by = ground-h*0.45;
+
+    line(ctx,ax,ay,bx,by,"#6bbcff",5);
+
+    const blockX = bx+(ax-bx)*t;
+    const blockY = by+(ay-by)*t;
+
+    ctx.save();
+    ctx.translate(blockX,blockY);
+    ctx.rotate(Math.atan2(by-ay,bx-ax));
+    ctx.fillStyle = "#ffd176";
+    ctx.fillRect(-18,-26,36,26);
+    ctx.restore();
+
+    ctx.fillStyle = "#d6e7fb";
+    ctx.fillText("Benda di bidang miring",20,24);
+
+  } else if (lab.scene==="pulley") {
+    const cx = w/2, cy = 65;
+    const r = 23;
+
+    ctx.beginPath();
+    ctx.arc(cx,cy,r,0,2*PI);
+    ctx.strokeStyle = "#ffd176";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    const leftY = 115+60*t;
+    const rightY = 175-60*t;
+
+    line(ctx,cx-r,cy,cx-r,leftY,"#dde9f6");
+    line(ctx,cx+r,cy,cx+r,rightY,"#dde9f6");
+
+    ctx.fillStyle = "#6bbcff";
+    ctx.fillRect(cx-r-20,leftY,40,37);
+
+    ctx.fillStyle = "#ffd176";
+    ctx.fillRect(cx+r-20,rightY,40,37);
+
+    ctx.fillStyle = "white";
+    ctx.fillText("m₁",cx-r-8,leftY+24);
+    ctx.fillText("m₂",cx+r-8,rightY+24);
+
+  } else if (lab.scene==="graph") {
+    const left = 35;
+    const top = 45;
+    const width = w-70;
+    const height = h-100;
+
+    line(ctx,left,top+height,left+width,top+height,"#60758e");
+    line(ctx,left,top,left,top+height,"#60758e");
+
+    const v0 = p.v0 || p.a0 || p.k || 0;
+    const a = p.a ?? p.j ?? 0;
+
+    ctx.beginPath();
+
+    for (let i=0;i<=100;i++) {
+      const z = i/100;
+      const x = left+z*width;
+      const value = v0+a*z*5;
+      const y = top+height-
+        Math.max(0,Math.min(1,value/50))*height;
+
+      if (i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+
+    ctx.strokeStyle = "#7ee1bb";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = "#d6e7fb";
+    ctx.fillText("Grafik terhadap waktu/posisi",20,24);
+
+  } else {
+    // Gerak horizontal umum
+    const start = 35;
+    const end = w-65;
+    const x = start+(end-start)*t;
+
+    ctx.fillStyle = "#ffd176";
+    ctx.fillRect(x,ground-42,52,42);
+
+    // Roda
+    circle(ctx,x+12,ground,7,"#6bbcff");
+    circle(ctx,x+42,ground,7,"#6bbcff");
+
+    // Panah arah gerak
+    line(ctx,x+55,ground-24,x+90,ground-24,"#7ee1bb",3);
+
+    ctx.fillStyle = "#d6e7fb";
+    ctx.fillText("Gerak benda",20,24);
+  }
 }
 
 function play() {
-
-  if (running) {
-    return;
-  }
+  if (running) return;
 
   running = true;
+  phase = 0;
 
-  function animate() {
+  let previous = null;
 
-    if (!running) {
-      return;
+  function animate(time) {
+    if (!running) return;
+
+    if (previous===null) previous=time;
+
+    const delta = (time-previous)/1000;
+    previous=time;
+
+    phase += delta/4;
+
+    if (phase>=1) {
+      phase=1;
+      running=false;
     }
 
-    animationTime += 0.015;
+    drawScene();
 
-    drawSimulation();
-
-    animationFrame = requestAnimationFrame(animate);
+    if (running) requestAnimationFrame(animate);
   }
 
-  animate();
+  requestAnimationFrame(animate);
 }
 
-function reset() {
-
-  running = false;
-
-  cancelAnimationFrame(animationFrame);
-
-  animationTime = 0;
-
-  loadFormula(current);
+function resetAnimation() {
+  running=false;
+  phase=0;
+  drawScene();
 }
 
-function nextFormula() {
+// ======================================
+// 8. GRAFIK NILAI RUMUS
+// ======================================
 
-  const next = (current + 1) % formulas.length;
+function drawGraph() {
+  const lab = labs[current];
+  const {ctx,w,h} = setupCanvas($("graph"));
 
-  loadFormula(next);
+  const keys = Object.keys(lab.values);
+  const key = keys[0];
+  const info = variables[key];
+
+  const minX = info[2];
+  const maxX = info[3];
+
+  const data = [];
+
+  for (let i=0;i<=100;i++) {
+    const x = minX+(maxX-minX)*i/100;
+    const p = {...lab.values,[key]:x};
+    const y = calculate(lab,p);
+
+    if (Number.isFinite(y)) data.push({x,y});
+  }
+
+  if (data.length<2) return;
+
+  let minY = Math.min(...data.map(d=>d.y));
+  let maxY = Math.max(...data.map(d=>d.y));
+
+  if (maxY===minY) {
+    maxY+=1;
+    minY-=1;
+  }
+
+  const padL=48,padR=20,padT=20,padB=37;
+  const cw=w-padL-padR;
+  const ch=h-padT-padB;
+
+  line(ctx,padL,padT,padL,padT+ch,"#60758e");
+  line(ctx,padL,padT+ch,padL+cw,padT+ch,"#60758e");
+
+  ctx.fillStyle="#a9bed3";
+  ctx.font="11px Arial";
+
+  ctx.fillText(fmt(maxY),3,padT+8);
+  ctx.fillText(fmt(minY),3,padT+ch);
+  ctx.fillText(info[0],padL,padT+ch+25);
+
+  ctx.beginPath();
+
+  data.forEach((d,i)=>{
+    const x=padL+(d.x-minX)/(maxX-minX)*cw;
+    const y=padT+ch-(d.y-minY)/(maxY-minY)*ch;
+
+    if (i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+
+  ctx.strokeStyle="#6bbcff";
+  ctx.lineWidth=3;
+  ctx.stroke();
+
+  const selected=lab.values[key];
+  const output=calculate(lab,lab.values);
+
+  if (Number.isFinite(output)) {
+    const px=padL+(selected-minX)/(maxX-minX)*cw;
+    const py=padT+ch-(output-minY)/(maxY-minY)*ch;
+
+    circle(ctx,px,py,5,"#ffd176");
+  }
 }
 
-function previousFormula() {
+// ======================================
+// 9. KUIS INTERAKTIF
+// ======================================
 
-  const previous =
-    (current - 1 + formulas.length) % formulas.length;
+function newQuestion() {
+  const lab=labs[current];
+  const p={...lab.values};
 
-  loadFormula(previous);
+  const keys=Object.keys(p);
+  const key=keys[Math.floor(Math.random()*keys.length)];
+
+  const info=variables[key];
+  const min=info[2];
+  const max=info[3];
+  const step=info[4];
+
+  const count=Math.floor((max-min)/step);
+  p[key]=Number(
+    (min+Math.floor(Math.random()*(count+1))*step).toFixed(4)
+  );
+
+  quizData={
+    values:p,
+    answer:calculate(lab,p)
+  };
+
+  const detail=Object.entries(p)
+    .map(([k,v])=>k+" = "+fmt(v))
+    .join(", ");
+
+  $("quizQuestion").textContent =
+    "Hitung "+lab.title.toLowerCase()+
+    " jika "+detail+". Jawab dalam "+lab.unit+".";
+
+  $("quizInput").value="";
+  $("feedback").textContent="";
 }
 
 function checkAnswer() {
-
-  const input = Number($("quizInput").value);
-
-  const correct =
-    formulas[current].calculate(parameters);
-
-  const feedback = $("feedback");
-
-  if ($("quizInput").value.trim() === "") {
-
-    feedback.textContent = "Masukkan jawaban terlebih dahulu.";
-    feedback.style.color = "#ffa0b2";
-
+  if (!quizData) {
+    $("feedback").textContent="Buat soal baru terlebih dahulu.";
     return;
   }
 
-  const tolerance = Math.max(0.01, Math.abs(correct) * 0.001);
+  const input=$("quizInput");
 
-  if (Math.abs(input - correct) <= tolerance) {
+  if (input.value.trim()==="") {
+    $("feedback").textContent="Masukkan jawaban terlebih dahulu.";
+    return;
+  }
 
-    feedback.textContent =
-      "✅ Benar! Jawaban kamu tepat.";
+  const userAnswer=Number(input.value);
+  const correct=quizData.answer;
 
-    feedback.style.color = "#7de5ba";
+  const tolerance=Math.max(0.02,Math.abs(correct)*0.005);
 
+  if (Math.abs(userAnswer-correct)<=tolerance) {
+    $("feedback").textContent=
+      "✅ Benar! Hasil = "+fmt(correct)+" "+labs[current].unit;
   } else {
-
-    feedback.textContent =
-      "❌ Belum tepat. Coba periksa kembali perhitunganmu.";
-
-    feedback.style.color = "#ffa0b2";
+    $("feedback").textContent=
+      "❌ Belum tepat. Coba periksa substitusi angka "+
+      "dan urutan operasinya.";
   }
 }
 
-// Mulai aplikasi
-loadFormula(0);
+// ======================================
+// 10. INISIALISASI
+// ======================================
+
+window.addEventListener("resize",()=>{
+  drawScene();
+  drawGraph();
+});
+
+selectLab(0);
+
+console.log(
+  "RASYIIQ Physics Lab aktif.",
+  labs.length,
+  "simulasi tersedia."
+);
 
 </script>
 
